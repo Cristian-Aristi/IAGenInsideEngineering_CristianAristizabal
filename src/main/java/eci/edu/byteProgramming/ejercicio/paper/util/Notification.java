@@ -1,6 +1,12 @@
 package eci.edu.byteProgramming.ejercicio.paper.util;
 
-public class Notification {
+/**
+ * Observer Implementation - Observador del patrón Observer
+ * 
+ * Reacciona a eventos de pago exitosos o fallidos enviando notificaciones por email al cliente.
+ * Implementa la interfaz PaymentObserver para recibir notificaciones del sistema de pagos.
+ */
+public class Notification implements PaymentObserver {
     private String companyName = "ECI Payments";
     private String fromEmail = "noreply@eciPayments.com";
     
@@ -24,7 +30,23 @@ public class Notification {
     }
 
     // Getters 
-    public String getCompanyName() { return companyName; }
-    public String getFromEmail() { return fromEmail; }
-
+    public String getCompanyName() { 
+        return companyName; 
+    }
+    
+    public String getFromEmail() { 
+        return fromEmail; 
+    }
+    
+    @Override
+    public void onPaymentSuccess(PaymentMethod payment, String customerName, String customerEmail, String productId) {
+        System.out.println("\n📧 Notification Observer: Sending success notification");
+        sendConfirmationEmail(customerEmail, customerName, payment);
+    }
+    
+    @Override
+    public void onPaymentFailed(PaymentMethod payment, String customerEmail) {
+        System.out.println("\n📧 Notification Observer: Sending failure notification");
+        sendFailureNotification(payment, customerEmail);
+    }
 }

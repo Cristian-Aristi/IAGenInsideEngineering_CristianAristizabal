@@ -3,7 +3,13 @@ package eci.edu.byteProgramming.ejercicio.paper.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Inventory {
+/**
+ * Observer Implementation - Observador del patrón Observer
+ * 
+ * Reacciona a eventos de pago exitosos descontando del stock de inventario.
+ * Implementa la interfaz PaymentObserver para recibir notificaciones del sistema de pagos.
+ */
+public class Inventory implements PaymentObserver {
     private static final String LAPTOP001 = "LAPTOP001";
     private Map<String, Product> products;
     private Map<String, Integer> stock;
@@ -44,6 +50,19 @@ public class Inventory {
     
     public int getStock(String productId) {
         return stock.getOrDefault(productId, 0);
+    }
+    
+    @Override
+    public void onPaymentSuccess(PaymentMethod payment, String customerName, String customerEmail, String productId) {
+        System.out.println("\n📦 Inventory Observer: Payment successful!");
+        if (discountProduct(productId, 1)) {
+            System.out.println("   Product deducted from inventory: " + productId);
+        }
+    }
+    
+    @Override
+    public void onPaymentFailed(PaymentMethod payment, String customerEmail) {
+        System.out.println("\n📦 Inventory Observer: Payment failed - no inventory changes made");
     }
 }
 

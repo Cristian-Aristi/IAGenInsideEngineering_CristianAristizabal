@@ -1,70 +1,18 @@
 package eci.edu.byteProgramming.ejercicio.paper.util;
 
-public class CryptoFactory extends PaymentMethod {
-    private String walletAddress;
-    private String cryptoType;
-    private String token;
-    private double walletBalance;
-    private String blockchainHash;
-    
-    public CryptoFactory(double amount, String customerId, String description,
-                 String walletAddress, String cryptoType, double walletBalance) {
-        super(amount, customerId, description);
-        this.walletAddress = walletAddress;
-        this.cryptoType = cryptoType;
-        this.token = token;
-        this.walletBalance = walletBalance;
-    }
-    
-    @Override
-    public boolean validatePaymentMethod() {
-        return validateWalletAddress() && validateBalance();
-    }
-    
-    private boolean validateWalletAddress() {
-        return walletAddress != null && walletAddress.length() >= 26;
-    }
-    
-    private boolean validateBalance() {
-        return walletBalance >= amount;
-    }
-    
-    @Override
-    public boolean processPayment() {
-        System.out.println("Processing Cryptocurrency payment...");
-        
-        if (!validatePaymentMethod()) {
-            System.out.println("Crypto validation failed!");
-            setStatus(PaymentStatus.FAILED);
-            return false;
-        }
-        
-        setStatus(PaymentStatus.PROCESSING);
-        
-        try {
-            Thread.sleep(3000);
-            this.blockchainHash = generateBlockchainHash();
-            System.out.println("Transaction broadcasted to blockchain");
-            System.out.println("Blockchain hash: " + blockchainHash);
-            
-            setStatus(PaymentStatus.COMPLETED);
-            return true;
-        } catch (Exception e) {
-            setStatus(PaymentStatus.FAILED);
-            return false;
-        }
-    }
-    
-    @Override
-    public String getPaymentMethod() {
-        return "CRYPTOCURRENCY";
-    }
-    
-    private String generateBlockchainHash() {
-        return "0x" + Integer.toHexString((int)(Math.random() * Integer.MAX_VALUE));
-    }
-    
-    public String getWalletAddress() { return walletAddress; }
-    public String getCryptoType() { return cryptoType; }
-    public String getBlockchainHash() { return blockchainHash; }
+/**
+ * ⚠️ DEPRECATED - Esta clase ha sido reemplazada y no debe ser utilizada.
+ * 
+ * Utilizar en su lugar:
+ * - Cryptocurrency.java (para la implementación del método de pago)
+ * - CryptoPaymentFactory.java (para la creación del método de pago)
+ * 
+ * El código anterior violaba el Abstract Factory Pattern porque combinaba
+ * la lógica de creación con la lógica de procesamiento de pagos.
+ * 
+ * @deprecated Use Cryptocurrency and CryptoPaymentFactory instead
+ */
+@Deprecated
+public class CryptoFactory {
+    // DEPRECATED - No utilizar
 }

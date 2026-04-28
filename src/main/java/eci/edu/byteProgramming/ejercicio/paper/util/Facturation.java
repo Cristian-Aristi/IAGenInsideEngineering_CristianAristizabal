@@ -1,6 +1,12 @@
 package eci.edu.byteProgramming.ejercicio.paper.util;
 
-public class Facturation {
+/**
+ * Observer Implementation - Observador del patrón Observer
+ * 
+ * Reacciona a eventos de pago exitosos generando facturas electrónicas.
+ * Implementa la interfaz PaymentObserver para recibir notificaciones del sistema de pagos.
+ */
+public class Facturation implements PaymentObserver {
     private String companyName = "ECI Payments Corp";
     private String taxId = "NIT 900123456-1";
     private String address = "Calle 100 #45-30, Bogotá D.C.";
@@ -51,8 +57,22 @@ public class Facturation {
     public String getCurrency() { return currency; }
     
     // Setters para configuración
-    public void setTaxRate(double taxRate) { this.taxRate = taxRate; }
-    public void setCurrency(String currency) { this.currency = currency; }
+    public void setTaxRate(double taxRate) { 
+        this.taxRate = taxRate; 
+    }
     
+    public void setCurrency(String currency) { 
+        this.currency = currency; 
+    }
     
+    @Override
+    public void onPaymentSuccess(PaymentMethod payment, String customerName, String customerEmail, String productId) {
+        System.out.println("\n📄 Facturation Observer: Generating invoice");
+        generateInvoice(payment, customerName, productId);
+    }
+    
+    @Override
+    public void onPaymentFailed(PaymentMethod payment, String customerEmail) {
+        System.out.println("\n📄 Facturation Observer: Payment failed - no invoice generated");
+    }
 }
